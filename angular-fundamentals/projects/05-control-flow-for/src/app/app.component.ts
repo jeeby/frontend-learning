@@ -6,31 +6,35 @@ import { Component } from '@angular/core';
   template: `
     <section class="container">
       <!-- This article element represents and entire listing -->
+      @for(car of carList; track car) {
       <article class="listing">
         <div class="image-parent">
           <img class="product-image" src="https://placehold.co/100x100" />
         </div>
         <section class="details">
-          <p class="title"><!-- car make and model--></p>
+          <p class="title">{{  car.make }} {{ car.model }}</p>
           <hr />
           <p class="detail">
             <span>Year</span>
-            <span><!-- year --></span>
+            <span>{{ car.year }}</span>
           </p>
           <div class="detail">
             <span>Transmission</span>
-            <span><!-- transmission --></span>
+            <span>{{ car.transmission }}</span>
           </div>
           <p class="detail">
             <span>Mileage</span>
-            <span><!-- miles --></span>
+            <span>{{ car.miles }}</span>
           </p>
           <p class="detail">
             <span>Price</span>
-            <span><!-- price --></span>
+            <span>{{ car.price }}</span>
           </p>
         </section>
       </article>
+      } @empty {
+        <p>No listings available</p>
+      }
     </section>
   `,
   styleUrl: 'app.component.css',
@@ -43,13 +47,13 @@ export class AppComponent {
       miles: 54354,
       price: 1000,
       year: 2022,
-      transmission: 'Automatic',
+      transmission: 'Manual',
     },
     {
       make: 'Ronda',
       model: 'Disaccord',
-      miles: 100000,
-      price: 230,
+      miles: 140000,
+      price: 2990,
       year: 1991,
       transmission: 'Automatic',
     },
@@ -58,8 +62,8 @@ export class AppComponent {
       model: 'Spoke',
       miles: 100000,
       price: 230,
-      year: 1991,
-      transmission: 'Automatic',
+      year: 1999,
+      transmission: 'Electric',
     },
     {
       make: 'Fjord',

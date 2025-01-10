@@ -1,39 +1,27 @@
 import { Component } from '@angular/core';
 import { Car } from './car';
+import {ListingComponent} from "./listing/listing.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [ListingComponent],
   template: `
-    <h1>Saved Cars {{ savedCarList.length }}</h1>
+    <h1>Saved {{ savedCarList.length }} of {{ carList.length}} Cars </h1>
     <section class="container">
-      <!-- This article element represents and entire listing -->
-      <article class="listing">
-        <div class="image-parent">
-          <img class="product-image" src="https://placehold.co/100x100" />
-        </div>
-        <section class="details">
-          <p class="title"><!-- car make and model--></p>
-          <hr />
-          <p class="detail">
-            <span>Year</span>
-            <span><!-- year --></span>
-          </p>
-          <div class="detail">
-            <span>Transmission</span>
-            <span><!-- transmission --></span>
-          </div>
-          <p class="detail">
-            <span>Mileage</span>
-            <span><!-- miles --></span>
-          </p>
-          <p class="detail">
-            <span>Price</span>
-            <span><!-- price --></span>
-          </p>
-        </section>
-      </article>
-      <!-- end car listing markup -->
+      @for(carEntry of carList; track carEntry) {
+        <app-listing [car]="carEntry" (carSaved)="addCarToSaved($event)" />
+      }
+    </section>
+    <h2>Saved Cars</h2>
+    <section class="container" style="float: left">
+      <ul>
+        @for(savedCar of savedCarList; track savedCar) {
+            <li>{{ savedCar.make }} {{savedCar.model}}</li>
+        } @empty {
+          <li>No saved cars yet</li>
+        }
+      </ul>
     </section>
   `,
   styles: [],
@@ -42,19 +30,19 @@ export class AppComponent {
   savedCarList: Car[] = [];
   carList: Car[] = [
     {
+      make: 'Bonda',
+      model: 'Disaccord',
+      miles: 100000,
+      price: 230,
+      year: 1991,
+      transmission: 'Automatic',
+    },
+    {
       make: 'Foyoda',
       model: 'Famery',
       miles: 54354,
       price: 1000,
       year: 2022,
-      transmission: 'Automatic',
-    },
-    {
-      make: 'Ronda',
-      model: 'Disaccord',
-      miles: 100000,
-      price: 230,
-      year: 1991,
       transmission: 'Automatic',
     },
     {
@@ -74,4 +62,7 @@ export class AppComponent {
       transmission: 'Automatic',
     },
   ];
+  addCarToSaved(car: Car) {
+    this.savedCarList.push(car);
+  }
 }
